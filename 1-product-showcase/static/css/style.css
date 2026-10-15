@@ -1,12 +1,12 @@
 /* Colors — CUSTOMIZE HERE: keep text readable against its background. */
 :root {
-    --background: #f6f4ef;
-    --surface: #ffffff;
-    --text: #222e2a;
-    --muted-text: #53615b;
-    --accent: #245c48;
-    --header-background: #e4ede5;
-    --border: #d4ded6;
+    --background: #0b1120;
+    --surface: #151f32;
+    --text: #f1f5f9;
+    --muted-text: #b6c2d4;
+    --accent: #4ade80;
+    --header-background: #101b2d;
+    --border: #334155;
 }
 
 /* General styles — CUSTOMIZE HERE: system fonts and spacing. */
@@ -46,15 +46,11 @@ main { padding-block: 2.5rem; }
 }
 
 /* Cards — CUSTOMIZE HERE: borders, image size, and inner spacing. */
-.card {
-    min-width: 0;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: 1rem;
-    background: var(--surface);
-}
+.card {min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface);display: flex;
+flex-direction: column; }
 .card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
-.card-content { padding: 1.5rem; }
+.card-content {padding: 1.5rem; display: flex; flex-direction: column; flex: 1; }
+.card-content .description { flex: 1; }
 .card h3 { margin: 0 0 0.75rem; font-size: 1.4rem; }
 .description { color: var(--muted-text); }
 .price { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
