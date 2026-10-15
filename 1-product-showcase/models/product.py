@@ -4,11 +4,12 @@ from abc import ABC, abstractmethod
 class Product(ABC):
     """Abstraction: share common attributes and require a delivery method."""
 
-    def __init__(self, name, description, price, image):
+    def __init__(self, name, description, price, image, category):
         self.name = name
         self.description = description
         self.price = price  # Construction also goes through validation.
         self.image = image
+        self.category = category
 
     @property
     def price(self):
@@ -31,8 +32,8 @@ class Product(ABC):
 
 
 class PhysicalProduct(Product):
-    def __init__(self, name, description, price, image, pickup_location):
-        super().__init__(name, description, price, image)
+    def __init__(self, name, description, price, image, pickup_location, category):
+        super().__init__(name, description, price, image, category)
         self.pickup_location = pickup_location
 
     def delivery(self):
@@ -41,8 +42,8 @@ class PhysicalProduct(Product):
 
 
 class DigitalProduct(Product):
-    def __init__(self, name, description, price, image, file_format):
-        super().__init__(name, description, price, image)
+    def __init__(self, name, description, price, image, file_format, category):
+        super().__init__(name, description, price, image, category)
         self.file_format = file_format
 
     def delivery(self):

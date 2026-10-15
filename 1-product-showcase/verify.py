@@ -9,6 +9,51 @@ from models.product import DigitalProduct, PhysicalProduct, Product
 
 
 class ShowcaseChecks(unittest.TestCase):
+    def test_category_filter(self):
+        with app.test_client() as client:
+            for category in {product.category for product in products}:
+                with self.subTest(category=category):
+                        response = client.get(
+                        "/",
+                        query_string={"category": category},
+                        )
+                        self.assertEqual(response.status_code, 200)
+                        html = response.get_data(as_text=True)
+
+                        expected = [
+                            product
+                            for product in products
+                            if product.category == category
+                        ]
+
+                        self.assertEqual(
+                             html.count('<article class="card">'),
+                             len(expected),
+                        )
+
+                        for product in products:
+                            title = f"<h3>{escape(product.name)}</h3>"
+
+                            if product.category == category:
+                               self.assertIn(title, html)
+                            else:
+                               self.assertNotIn(title, html)
+
+    def test_unknown_category(self):
+            existing_categories = {product.category for product in products}
+            unknown_category = "Unknown"
+
+            while unknown_category in existing_categories:
+                unknown_category += "_"
+
+            response = app.test_client().get(
+                "/",
+                 query_string={"category": unknown_category},
+            )
+            self.assertEqual(response.status_code, 200)
+            html = response.get_data(as_text=True)
+            self.assertEqual(html.count('<article class="card">'), 0)
+        
     def test_page_and_content(self):
         response = app.test_client().get("/")
         self.assertEqual(response.status_code, 200)
@@ -45,7 +90,7 @@ class ShowcaseChecks(unittest.TestCase):
             (DigitalProduct, {"file_format": "PDF"}),
         ):
             with self.subTest(product_class=product_class.__name__):
-                arguments = dict(name="Test", description="Test", image="placeholder.svg", **extra)
+                arguments = dict(name="Test", description="Test", image="placeholder.svg",category = "Test", **extra)
                 with self.assertRaisesRegex(ValueError, "The price cannot be negative."):
                     product_class(price=-1, **arguments)
                 product = product_class(price=59.90, **arguments)
@@ -62,11 +107,11 @@ class ShowcaseChecks(unittest.TestCase):
     def test_polymorphism(self):
         physical = PhysicalProduct(
             name="Test", description="Test", price=1,
-            image="placeholder.svg", pickup_location="Library",
+            image="placeholder.svg", pickup_location="Library",category = "Test",
         )
         digital = DigitalProduct(
             name="Test", description="Test", price=1,
-            image="placeholder.svg", file_format="PDF",
+            image="placeholder.svg", file_format="PDF",category = "Test",
         )
         self.assertNotEqual(physical.delivery(), digital.delivery())
         self.assertIn("Library", physical.delivery())
