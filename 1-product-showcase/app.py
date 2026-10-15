@@ -14,7 +14,7 @@ products = [
     PhysicalProduct(
         name="Minecraft",
         description="Build, explore, and create your own adventure.",
-        price=99.90,
+        price=99.99,
         image="minecraft.jfif",
         pickup_location="One More Level pickup point",
     ),
@@ -26,11 +26,11 @@ products = [
         pickup_location="One More Level pickup point",
     ),
     DigitalProduct(
-    name="Crimson Desert",
-    description="Explore the vast continent of Pywel as Kliff, facing fierce enemies and discovering a world filled with adventure.",
-    price=249.90,
-    image="Crimson-Desert.jpg",
-    file_format="Midia digital",
+        name="Crimson Desert",
+        description="Explore the vast continent of Pywel as Kliff, facing fierce enemies and discovering a world filled with adventure.",
+        price=249.90,
+        image="Crimson-Desert.jpg",
+        file_format="Midia digital",
 ),
 ]
 
