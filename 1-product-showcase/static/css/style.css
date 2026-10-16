@@ -1,4 +1,5 @@
 /* Colors — CUSTOMIZE HERE: keep text readable against its background. */
+/* Global theme tokens: background, card surface, primary and secondary text, accent, header, and borders. */
 :root {
     --background: #0b1120;
     --surface: #151f32;
@@ -10,7 +11,9 @@
 }
 
 /* General styles — CUSTOMIZE HERE: system fonts and spacing. */
+/* Include padding and borders in declared element sizes to make layout sizing predictable. */
 * { box-sizing: border-box; }
+/* Set the page defaults; long words may wrap instead of overflowing narrow screens. */
 body {
     margin: 0;
     background: var(--background);
@@ -19,26 +22,37 @@ body {
     line-height: 1.6;
     overflow-wrap: anywhere;
 }
+/* Keep a centered content area with side gutters and a maximum reading width. */
 .container { width: min(100% - 2rem, 68rem); margin-inline: auto; }
+/* Give headings a tighter line height than paragraph text. */
 h1, h2, h3 { line-height: 1.2; }
 
 /* Header */
+/* Separate the introduction from the catalog with spacing, a surface color, and a border. */
 .header {
     padding: 3.5rem 0;
     background: var(--header-background);
     border-bottom: 1px solid var(--border);
 }
+/* Emphasize the short introductory label with bold, spaced accent text. */
 .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: 0.08em; }
+/* clamp chooses a responsive heading size between fixed minimum and maximum limits. */
 h1 { font-size: clamp(2.2rem, 7vw, 4rem); margin: 0.5rem 0 1rem; }
+/* Limit introduction width and use a quieter color to preserve title hierarchy. */
 .introduction { max-width: 40rem; font-size: 1.15rem; color: var(--muted-text); }
 
 /* Content */
+/* Add vertical breathing room around the catalog. */
 main { padding-block: 2.5rem; }
+/* Separate the catalog heading from its filter controls. */
 .section-heading { margin-bottom: 1.75rem; }
+/* Remove the heading's default top margin. */
 .section-heading h2 { margin-top: 0; }
+/* Use the secondary text color for the explanatory paragraph. */
 .section-heading p { color: var(--muted-text); }
 
 /* Grid — the minimum column size never exceeds the available width. */
+/* auto-fill preserves empty tracks; min prevents a column from exceeding the viewport; gap separates cards. */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
@@ -46,26 +60,43 @@ main { padding-block: 2.5rem; }
 }
 
 /* Cards — CUSTOMIZE HERE: borders, image size, and inner spacing. */
+/* Use a vertical flex layout; clip image corners and allow the card to shrink within its grid track. */
 .card {min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface);display: flex;
 flex-direction: column; }
+/* Reserve a 4:3 area and fill it without distortion; cover can crop the source image edges. */
 .card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+/* Fill the remaining card height and stack its text elements vertically. */
 .card-content {padding: 1.5rem; display: flex; flex-direction: column; flex: 1; }
+/* Let the description absorb spare height so prices align across equal-height cards. */
 .card-content .description { flex: 1; }
+/* Style the category badge; uppercase affects presentation without changing the underlying data. */
 .category { margin: 0 0 0.5rem; color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+/* Control product title size and the space before its description. */
 .card h3 { margin: 0 0 0.75rem; font-size: 1.4rem; }
+/* Keep descriptive copy visually secondary to the product title. */
 .description { color: var(--muted-text); }
+/* Make the price prominent using size, weight, and the theme accent. */
 .price { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+/* Separate fulfillment information from the price with a top rule and padding. */
 .delivery { border-top: 1px solid var(--border); padding-top: 1rem; color: var(--muted-text); }
 
 /* Footer */
+/* Separate author attribution from the catalog. */
 .footer { padding-block: 1.5rem; border-top: 1px solid var(--border); color: var(--muted-text); }
 
 /*selector of category style for foms*/
+/* Lay out filter controls in a row that wraps when the available width becomes small. */
 .filters {display: flex;flex-wrap: wrap;align-items: center;gap: 0.75rem;margin-bottom: 1.5rem;}
+/* Give the accessible form label a stronger visual weight. */
 .filters label {font-weight: 700;}
+/* Share typography, padding, borders, and corner rounding between the select and button. */
 .filters select,
+/* Distinguish the submit action with an accent background and pointer cursor. */
 .filters button {font: inherit;padding: 0.65rem 1rem;border: 1px solid var(--border);border-radius: 0.5rem;}
+/* Keep the selector within its container and match the dark theme. */
 .filters select {min-width: 0;max-width: 100%;background: var(--surface);color: var(--text);}
+/* Distinguish the submit action with an accent background and pointer cursor. */
 .filters button {background: var(--accent);color: var(--background);font-weight: 700;cursor: pointer;}
+/* Show a visible keyboard focus ring without removing the browser's accessibility cues. */
 .filters select:focus-visible,
 .filters button:focus-visible {outline: 2px solid var(--accent);outline-offset: 3px;}

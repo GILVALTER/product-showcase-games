@@ -1,12 +1,19 @@
+{# Declare an HTML5 document; Jinja expressions are rendered on the server before delivery. #}
 <!DOCTYPE html>
+{# Identify English as the document language for assistive technology and browsers. #}
 <html lang="en">
 <head>
+    {# Use UTF-8 so punctuation and currency text are decoded consistently. #}
     <meta charset="UTF-8">
+    {# Use the device viewport width so responsive CSS works on narrow screens. #}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# Set the browser tab title from the value supplied by app.py. #}
     <title>{{ showcase_name }}</title>
+    {# Generate the stylesheet URL using Flask's static endpoint. #}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    {# Display the showcase identity; CSS classes control appearance, not Python values. #}
     <header class="header">
         <div class="container">
             <p class="eyebrow">A personal collection</p>
@@ -15,18 +22,25 @@
         </div>
     </header>
     <main class="container">
+        {# Name this section with its heading for accessibility. #}
         <section aria-labelledby="products-title">
             <div class="section-heading">
                 <h2 id="products-title">Explore the products</h2>
                 <p>A demo showcase for learning and creating. No purchases on this page.</p>
             </div>
+            {# Submit a read-only filter request to index; keep this form outside the product grid. #}
             <form method="get" action="{{ url_for('index') }}" class="filters"> 
+                    {# Connect the visible label to the select element with the matching id. #}
                     <label for="category">Category</label>
 
+                    {# The name becomes the query parameter read by request.args in app.py. #}
                     <select id="category" name="category">
+                        {# An empty category disables filtering and shows the complete catalog. #}
                         <option value="">All games</option>
 
+                        {# Generate options from the full catalog; repeated category values were removed in Python. #}
                         {% for category in categories %}
+                            {# Send this category value; the following Jinja condition preserves the active selection. #}
                             <option value="{{ category }}"
                                    {% if category == selected_category %}selected{% endif %}>
                                 {{ category }}
@@ -35,18 +49,26 @@
                         
                     </select>
 
+                    {# Apply the selection by submitting the form; no JavaScript is needed. #}
                     <button type="submit">Filter games</button>
             </form>
+            {# Let CSS Grid arrange only product cards into responsive columns. #}
             <div class="grid">
+                {# Render one card per object in the already filtered list supplied by the route. #}
                 {% for product in products %}
                 <article class="card">
+                    {# Join the images directory and filename; alt provides a text alternative and dimensions reserve space. #}
                     <img src="{{ url_for('static', filename='images/' ~ product.image) }}"
                          alt="Image of {{ product.name }}" width="640" height="480">
                     <div class="card-content">
+                        {# Display the stored category; CSS uppercases only its visual presentation. #}
                         <p class="category">{{ product.category }}</p>
+                        {# Insert the product name; Jinja automatically escapes ordinary text values. #}
                         <h3>{{ product.name }}</h3>
                         <p class="description">{{ product.description }}</p>
+                        {# Call the shared model method to display BRL text instead of the raw number. #}
                         <p class="price">{{ product.formatted_price() }}</p>
+                        {# Use polymorphism: each product type supplies its own delivery message. #}
                         <p class="delivery">{{ product.delivery() }}</p>
                     </div>
                 </article>
@@ -54,6 +76,7 @@
             </div>
         </section>
     </main>
+    {# Credit the author using the value supplied by the route. #}
     <footer class="footer container">
         <p>Created by {{ author_name }} · A learning project</p>
     </footer>

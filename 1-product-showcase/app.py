@@ -1,8 +1,12 @@
+# Import the web application class and the function that renders Jinja templates.
 from flask import Flask, render_template
+# request exposes the current HTTP request, including URL query parameters.
 from flask import Flask, render_template, request
 
+# Import the local product types used to build the in-memory catalog.
 from models.product import DigitalProduct, PhysicalProduct
 
+# Create the Flask application; the module name helps Flask locate templates and static files.
 app = Flask(__name__)
 
 # CUSTOMIZE HERE: choose a theme and introduce your showcase.
@@ -11,6 +15,7 @@ SHOWCASE_DESCRIPTION = "Your next adventure starts here."
 AUTHOR_NAME = "Gilvalter Sales"
 
 # CUSTOMIZE HERE: prices are numbers with a decimal point, without R$.
+# Keep product objects in memory. These demonstration prices are not live store prices.
 products = [
     PhysicalProduct(
         name="Minecraft",
@@ -42,24 +47,33 @@ products = [
 ]
 
 
+# Associate the home URL with index; the default route accepts GET requests.
 @app.route("/")
 def index():
+    # Read ?category=... from the URL; an absent parameter becomes an empty string.
     selected_category = request.args.get("category", "")
+    # Start with the full catalog. This assignment references the list rather than copying it.
     filtered_products = products
 
+    # Only filter when a nonempty category was supplied; comparisons are case-sensitive.
     if selected_category:
+        # Build a new list containing only objects whose category matches the request.
         filtered_products = [
             product
             for product in products
             if product.category == selected_category
         ]
+    # Collect unique categories from the full catalog, then sort them for the selector.
     categories = sorted({product.category for product in products})
+    # Render templates/index.html and expose the following named values to Jinja.
     return render_template(
         "index.html",
         showcase_name=SHOWCASE_NAME,
         showcase_description=SHOWCASE_DESCRIPTION,
         author_name=AUTHOR_NAME,
+        # Keep the template variable named products while passing the selected subset.
         products=filtered_products,
         categories=categories,
+        # Let the template preserve the submitted selection after the page reloads.
         selected_category=selected_category,
     )
