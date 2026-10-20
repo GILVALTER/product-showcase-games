@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart — One More Level</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <h1>Your cart</h1>
+
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+                <li>
+                    {{ item["product"].name }}
+                    — Quantity: {{ item["quantity"] }}
+                    <p>
+                        Subtotal: R$ {{ ("%.2f"|format(item["subtotal"])).replace(".", ",") }}
+                    </p>
+                    <form
+                        method="post"
+                        action="{{ url_for('update_cart_quantity', product_id=item['product'].product_id) }}"
+                    >
+                        <label>
+                            Quantity:
+                            <input
+                                type="number"
+                                name="quantity"
+                                value="{{ item['quantity'] }}"
+                                min="1"
+                                max="99"
+                                step="1"
+                                required
+                            >
+                        </label>
+                        <button type="submit">Update</button>
+                    </form>
+                    <form
+                        method="post"
+                        action="{{ url_for('remove_from_cart', product_id=item['product'].product_id) }}"
+                    >
+                        <button type="submit">Remove</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>
+            <strong>
+                Total: R$ {{ ("%.2f"|format(total)).replace(".", ",") }}
+            </strong>
+        </p>
+    {% else %}
+    
+        <p>Your cart is empty.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}">Back to games</a>
+</body>
+</html>

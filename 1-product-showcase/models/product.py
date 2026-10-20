@@ -6,17 +6,19 @@ from abc import ABC, abstractmethod
 class Product(ABC):
     """Abstraction: share common attributes and require a delivery method."""
 
-    def __init__(self, name, description, price, image, category):
+    def __init__(self, name, description, price, image, category, product_id):
         # Store the received name on this object; each product keeps its own attributes.
         self.name = name
         # Store the descriptive text that Jinja will display inside the card.
         self.description = description
-        self.price = price  # Construction also goes through validation.
+        # Construction also goes through validation.
+        self.price = price 
         # Store a filename, not image contents; the template builds its static URL.
         self.image = image
         # Store the category used both for the badge and for server-side filtering.
         self.category = category
-
+         # Store the stable identifier used to find this product.
+        self.product_id = product_id
     # Expose price as an attribute while routing reads through the getter below.
     @property
     def price(self):
@@ -47,9 +49,9 @@ class Product(ABC):
 
 # Inheritance: specialize Product with a physical pickup location.
 class PhysicalProduct(Product):
-    def __init__(self, name, description, price, image, pickup_location, category):
+    def __init__(self, name, description, price, image, pickup_location, category, product_id):
         # Initialize the shared attributes on this same object, including price validation.
-        super().__init__(name, description, price, image, category)
+        super().__init__(name, description, price, image, category, product_id)
         # Add the physical-only attribute after initializing the common attributes.
         self.pickup_location = pickup_location
 
@@ -61,9 +63,9 @@ class PhysicalProduct(Product):
 
 # Inheritance: specialize Product with a digital file format description.
 class DigitalProduct(Product):
-    def __init__(self, name, description, price, image, file_format, category):
+    def __init__(self, name, description, price, image, file_format, category, product_id):
         # Initialize the shared attributes on this same object, including price validation.
-        super().__init__(name, description, price, image, category)
+        super().__init__(name, description, price, image, category, product_id)
         # Add the digital-only attribute; this does not download or deliver a file.
         self.file_format = file_format
 

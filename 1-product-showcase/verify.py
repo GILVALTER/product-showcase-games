@@ -20,54 +20,54 @@ class ShowcaseChecks(unittest.TestCase):
             for category in {product.category for product in products}:
                 # Report the category responsible for a failure while continuing other cases.
                 with self.subTest(category=category):
-                        response = client.get(
+                    response = client.get(
                         "/",
                         # Encode the selected category as URL query parameters, including any spaces.
                         query_string={"category": category},
-                        )
-                        self.assertEqual(response.status_code, 200)
-                        # Decode the response body into text so assertions can inspect the rendered HTML.
-                        html = response.get_data(as_text=True)
+                    )
+                    self.assertEqual(response.status_code, 200)
+                    # Decode the response body into text so assertions can inspect the rendered HTML.
+                    html = response.get_data(as_text=True)
 
-                        # Compute the expected matching objects independently of the route response.
-                        expected = [
-                            product
-                            for product in products
-                            if product.category == category
-                        ]
+                    # Compute the expected matching objects independently of the route response.
+                    expected = [
+                        product
+                        for product in products
+                        if product.category == category
+                    ]
 
-                        self.assertEqual(
-                             html.count('<article class="card">'),
-                             len(expected),
-                        )
+                    self.assertEqual(
+                        html.count('<article class="card">'),
+                        len(expected),
+                    )
 
-                        for product in products:
-                            # Look for a card title rather than a name that could appear elsewhere on the page.
-                            title = f"<h3>{escape(product.name)}</h3>"
+                    for product in products:
+                        # Look for a card title rather than a name that could appear elsewhere on the page.
+                        title = f"<h3>{escape(product.name)}</h3>"
 
-                            if product.category == category:
-                               self.assertIn(title, html)
-                            else:
-                               self.assertNotIn(title, html)
+                        if product.category == category:
+                            self.assertIn(title, html)
+                        else:
+                            self.assertNotIn(title, html)
 
     # Check that an unmatched category returns a successful page with no product cards.
     def test_unknown_category(self):
-            existing_categories = {product.category for product in products}
-            unknown_category = "Unknown"
+        existing_categories = {product.category for product in products}
+        unknown_category = "Unknown"
 
-            # Ensure the test input stays unknown even if the catalog later gains more categories.
-            while unknown_category in existing_categories:
-                unknown_category += "_"
+        # Ensure the test input stays unknown even if the catalog later gains more categories.
+        while unknown_category in existing_categories:
+            unknown_category += "_"
 
-            response = app.test_client().get(
-                "/",
-                 query_string={"category": unknown_category},
-            )
-            self.assertEqual(response.status_code, 200)
-            # Decode the response body into text so assertions can inspect the rendered HTML.
-            html = response.get_data(as_text=True)
-            self.assertEqual(html.count('<article class="card">'), 0)
-        
+        response = app.test_client().get(
+            "/",
+            query_string={"category": unknown_category},
+        )
+        self.assertEqual(response.status_code, 200)
+        # Decode the response body into text so assertions can inspect the rendered HTML.
+        html = response.get_data(as_text=True)
+        self.assertEqual(html.count('<article class="card">'), 0)
+
     # Check the unfiltered page, its card count, displayed product data, and image URLs.
     def test_page_and_content(self):
         response = app.test_client().get("/")
@@ -111,7 +111,7 @@ class ShowcaseChecks(unittest.TestCase):
             (DigitalProduct, {"file_format": "PDF"}),
         ):
             with self.subTest(product_class=product_class.__name__):
-                arguments = dict(name="Test", description="Test", image="placeholder.svg",category = "Test", **extra)
+                arguments = dict(name="Test", description="Test", image="placeholder.svg", category="Test", product_id="test-product", **extra)
                 with self.assertRaisesRegex(ValueError, "The price cannot be negative."):
                     # Expand the argument dictionary and verify that a negative initial price is rejected.
                     product_class(price=-1, **arguments)
@@ -132,11 +132,11 @@ class ShowcaseChecks(unittest.TestCase):
     def test_polymorphism(self):
         physical = PhysicalProduct(
             name="Test", description="Test", price=1,
-            image="placeholder.svg", pickup_location="Library",category = "Test",
+            image="placeholder.svg", pickup_location="Library", category="Test",product_id="test-digital",
         )
         digital = DigitalProduct(
             name="Test", description="Test", price=1,
-            image="placeholder.svg", file_format="PDF",category = "Test",
+            image="placeholder.svg", file_format="PDF", category="Test",product_id="test-digital",
         )
         self.assertNotEqual(physical.delivery(), digital.delivery())
         self.assertIn("Library", physical.delivery())
