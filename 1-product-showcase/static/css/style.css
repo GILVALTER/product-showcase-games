@@ -251,3 +251,17 @@ main {
     color: var(--accent);
     text-align: right;
 }
+.back-link{
+    color: var(--background);
+    background: var(--accent);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+}
+.back-link:hover{
+    color: #253d2e;
+}   
