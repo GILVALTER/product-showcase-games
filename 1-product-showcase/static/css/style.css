@@ -210,3 +210,30 @@ main {
     border-radius: 1rem;
     background: var(--surface);
 }
+/* Share typography, spacing, borders, and corners among cart controls. */
+.cart-item input,
+.cart-item button {
+    font: inherit;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+}
+/* Match the quantity field to the dark theme. */
+.cart-item input {
+    width: 5rem;
+    background: var(--background);
+    color: var(--text);
+}
+/* Highlight the main action with the accent color. */
+.cart-item .button-primary {
+    background: var(--accent);
+    color: var(--background);
+    font-weight: 700;
+    cursor: pointer;
+}
+/* Keep the destructive action visually quieter than the main action. */
+.cart-item .button-secondary {
+    background: transparent;
+    color: var(--muted-text);
+    cursor: pointer;
+}
