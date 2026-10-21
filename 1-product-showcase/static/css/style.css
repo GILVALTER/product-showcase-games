@@ -196,3 +196,17 @@ main {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
 }
+/* Cart */
+/* Remove the default bullets and indentation from the cart list. */
+.cart-list {
+    list-style: none;
+    padding: 0;
+}
+/* Display each cart item as a card that matches the catalog theme. */
+.cart-item {
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: var(--surface);
+}

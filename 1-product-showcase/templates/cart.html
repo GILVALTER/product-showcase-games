@@ -8,12 +8,13 @@
 </head>
 
 <body>
-    <h1>Your cart</h1>
+    <main class="container">
+        <h1>Your cart</h1>
 
-    {% if cart_items %}
-        <ul>
+        {% if cart_items %}
+        <ul class="cart-list">
             {% for item in cart_items %}
-                <li>
+                <li class="cart-item">
                     {{ item["product"].name }}
                     — Quantity: {{ item["quantity"] }}
                     <p>
@@ -56,6 +57,7 @@
         <p>Your cart is empty.</p>
     {% endif %}
 
-    <a href="{{ url_for('index') }}">Back to games</a>
+        <a href="{{ url_for('index') }}">Back to games</a>
+    </main>
 </body>
 </html>
