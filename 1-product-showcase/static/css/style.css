@@ -237,3 +237,17 @@ main {
     color: var(--muted-text);
     cursor: pointer;
 }
+.cart-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+} 
+/* Separate the total from the items and emphasize it like catalog prices. */
+.cart-total {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 1.5rem;
+    color: var(--accent);
+    text-align: right;
+}

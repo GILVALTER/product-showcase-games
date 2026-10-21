@@ -20,34 +20,34 @@
                     <p>
                         Subtotal: R$ {{ ("%.2f"|format(item["subtotal"])).replace(".", ",") }}
                     </p>
-                    <form
-                        method="post"
-                        action="{{ url_for('update_cart_quantity', product_id=item['product'].product_id) }}"
-                    >
-                        <label>
-                            Quantity:
-                            <input
-                                type="number"
-                                name="quantity"
-                                value="{{ item['quantity'] }}"
-                                min="1"
-                                max="99"
-                                step="1"
-                                required
-                            >
-                        </label>
-                        <button type="submit" class="button-primary">Update</button>
-                    </form>
-                    <form
-                        method="post"
-                        action="{{ url_for('remove_from_cart', product_id=item['product'].product_id) }}"
-                    >
-                        <button type="submit" class="button-secondary">Remove</button>
-                    </form>
+                    <div class="cart-actions">
+                        <form
+                            method="post"
+                            action="{{ url_for('update_cart_quantity', product_id=item['product'].product_id) }}">
+                            <label>
+                                Quantity:
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    value="{{ item['quantity'] }}"
+                                    min="1"
+                                    max="99"
+                                    step="1"
+                                    required
+                                >
+                            </label>
+                            <button type="submit" class="button-primary">Update</button>
+                        </form>
+                        <form
+                            method="post"
+                            action="{{ url_for('remove_from_cart', product_id=item['product'].product_id) }}">
+                            <button type="submit" class="button-secondary">Remove</button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
-        <p>
+        <p class="cart-total">
             <strong>
                 Total: R$ {{ ("%.2f"|format(total)).replace(".", ",") }}
             </strong>
