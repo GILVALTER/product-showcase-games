@@ -19,7 +19,7 @@
                 <p class="eyebrow">A personal collection</p>
                 <h1>{{ showcase_name }}</h1>
                 <p class="introduction">{{ showcase_description }}</p>
-                  <a class="cart-link" href="{{ url_for('view_cart') }}">🛒 Cart</a>
+                <a class="cart-link" href="{{ url_for('view_cart') }}">🛒 Cart ({{ cart_count }})</a>
             </div>
         </header>
         <main class="container">

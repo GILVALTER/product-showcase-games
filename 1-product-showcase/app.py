@@ -75,6 +75,9 @@ def index():
         ]
     # Collect unique categories from the full catalog, then sort them for the selector.
     categories = sorted({product.category for product in products})
+    # Count every unit in the cart to show it in the header link.
+    cart = session.get("cart", {})
+    cart_count = sum(cart.values())
     # Render templates/index.html and expose the following named values to Jinja.
     return render_template(
         "index.html",
@@ -86,6 +89,7 @@ def index():
         categories=categories,
         # Let the template preserve the submitted selection after the page reloads.
         selected_category=selected_category,
+        cart_count=cart_count,
     )
 @app.route("/cart/add/<product_id>", methods=["POST"])
 def add_to_cart(product_id):
