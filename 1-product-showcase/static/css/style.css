@@ -251,7 +251,7 @@ main {
     color: var(--accent);
     text-align: right;
 }
-.back-link{
+.back-link,.cart-link{
     color: var(--background);
     background: var(--accent);
     font-weight: 700;
@@ -262,6 +262,6 @@ main {
     border: 1px solid var(--border);
     border-radius: 0.5rem;
 }
-.back-link:hover{
+.back-link:hover,.cart-link:hover{
     color: #253d2e;
 }   
